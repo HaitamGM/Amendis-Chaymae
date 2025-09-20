@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeoParc - Interface Employé</title>
+    <style>
+        :root {
+            --primary-color: #d32f2f;
+            --secondary-color: #f44336;
+            --accent-color: #ffffff;
+            --text-color: #333333;
+            --light-gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+            --sidebar-width: 250px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            color: var(--accent-color);
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo h2 {
+            font-size: 1.5rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 5px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .nav-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--dark-gray);
+        }
+        
+        .page-title h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-btn, .logout-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 15px;
+            color: var(--text-color);
+        }
+        
+        .assistance-section {
+            background-color: var(--accent-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .assistance-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .problem-description {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--dark-gray);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .problem-description:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--accent-color);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .ai-response {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            border-left: 4px solid var(--primary-color);
+            display: none;
+        }
+        
+        .ai-response h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .ai-solution {
+            margin-bottom: 15px;
+        }
+        
+        .ai-helpful {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .intervention-form {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--dark-gray);
+            border-radius: 4px;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .my-requests {
+            background-color: var(--accent-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .my-requests h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .requests-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .requests-table th, .requests-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--dark-gray);
+        }
+        
+        .requests-table th {
+            background-color: var(--light-gray);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-new {
+            background-color: #ffeb3b;
+            color: #000;
+        }
+        
+        .status-in-progress {
+            background-color: #2196f3;
+            color: white;
+        }
+        
+        .status-resolved {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .logo h2, .user-name, .user-role, .nav-text {
+                display: none;
+            }
+            
+            .nav-link {
+                justify-content: center;
+            }
+            
+            .nav-icon {
+                margin-right: 0;
+                font-size: 1.5rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>AmenParcIt</h2>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-avatar">DH</div>
+            <div>
+                <div class="user-name">Karim HIMMICHE</div>
+                <div class="user-role">Employé</div>
+            </div>
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Accueil</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">💻</span>
+                    <span class="nav-text">Mon matériel</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">🔧</span>
+                    <span class="nav-text">Demandes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">📞</span>
+                    <span class="nav-text">Support</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="page-title">
+                <h1>Assistance technique</h1>
+            </div>
+            <div class="user-actions">
+                <button class="notification-btn">🔔</button>
+                <button class="logout-btn">🚪</button>
+            </div>
+        </div>
+        
+        <section class="assistance-section">
+            <h2>Décrivez votre problème</h2>
+            <textarea class="problem-description" placeholder="Décrivez en détail le problème que vous rencontrez..."></textarea>
+            <button class="btn" id="analyze-btn">envoyer</button>
+            
+            <div class="ai-response" id="ai-response">
+                <h3>Solution proposée</h3>
+                <div class="ai-solution" id="ai-solution">
+                    <!-- Contenu généré dynamiquement -->
+                </div>
+                <div class="ai-helpful">
+                    Cette solution vous a-t-elle aidé ?
+                    <button class="btn-small">Oui</button>
+                    <button class="btn-small">Non</button>
+                </div>
+            </div>
+            
+            <div class="intervention-form" id="intervention-form">
+                <h3>Demande d'intervention</h3>
+                <div class="form-group">
+                    <label for="problem-type">Type de problème</label>
+                    <select id="problem-type">
+                        <option value="logiciel">Logiciel</option>
+                        <option value="material">Matériel</option>
+                        <option value="reseau">Réseau</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="material-id">Matricule du matériel (si applicable)</label>
+                    <input type="text" id="material-id" placeholder="Ex: PC-001">
+                </div>
+                <button class="btn" id="submit-request">Envoyer la demande</button>
+            </div>
+        </section>
+        
+        <section class="my-requests">
+            <h2>Mes demandes récentes</h2>
+            <table class="requests-table">
+                <thead>
+                    <tr>
+                        
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>75</td>
+                        <td>Matériel</td>
+                        <td>Clavier HS - touches espace et entrée ne fonctionnent plus</td>
+                        <td>2022-02-07</td>
+                        <td><span class="status-badge status-resolved">Résolu</span></td>
+                    </tr>
+                    
+                    
+                </tbody>
+            </table>
+        </section>
+    </main>
+    
+    <script>
+        // Gestion du bouton de déconnexion
+        document.querySelector('.logout-btn').addEventListener('click', function() {
+            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Simulation de l'IA d'assistance
+        document.getElementById('analyze-btn').addEventListener('click', function() {
+            const problem = document.querySelector('.problem-description').value;
+            
+            if (!problem) {
+                alert('Veuillez décrire votre problème');
+                return;
+            }
+            
+            // Simulation de réponse de l'IA (en réalité, on enverrait à un backend avec spaCy)
+            const aiResponse = document.getElementById('ai-response');
+            const aiSolution = document.getElementById('ai-solution');
+            const interventionForm = document.getElementById('intervention-form');
+            
+            // Réponses possibles basées sur des mots-clés
+            if (problem.toLowerCase().includes('lent') || problem.toLowerCase().includes('ralenti')) {
+                aiSolution.innerHTML = `
+                    <p>Votre ordinateur semble fonctionner lentement. Voici quelques solutions à essayer :</p>
+                    <ol>
+                        <li>Redémarrez votre ordinateur</li>
+                        <li>Fermez les applications inutilisées</li>
+                        <li>Vérifiez les mises à jour du système</li>
+                        <li>Effectuez un nettoyage de disque</li>
+                    </ol>
+                `;
+            } else if (problem.toLowerCase().includes('écran') || problem.toLowerCase().includes('cassé')) {
+                aiSolution.innerHTML = `
+                    <p>Pour un écran cassé ou endommagé :</p>
+                    <ol>
+                        <li>Éteignez immédiatement l'appareil</li>
+                        <li>Ne touchez pas les parties brisées</li>
+                        <li>Contactez le support technique pour un remplacement</li>
+                    </ol>
+                `;
+            } else {
+                aiSolution.innerHTML = `
+                    <p>Nous n'avons pas pu trouver de solution automatique à votre problème.</p>
+                    <p>Veuillez soumettre une demande d'intervention à notre équipe technique.</p>
+                `;
+            }
+            
+            aiResponse.style.display = 'block';
+            
+            // Afficher le formulaire d'intervention si l'IA ne peut pas résoudre
+            if (problem.toLowerCase().includes('écran') || problem.toLowerCase().includes('cassé') || 
+                !(problem.toLowerCase().includes('lent') || problem.toLowerCase().includes('ralenti'))) {
+                interventionForm.style.display = 'block';
+            } else {
+                interventionForm.style.display = 'none';
+            }
+        });
+        
+        // Gestion de l'envoi de demande d'intervention
+        document.getElementById('submit-request').addEventListener('click', function() {
+            const problemType = document.getElementById('problem-type').value;
+            const materialId = document.getElementById('material-id').value;
+            const problemDescription = document.querySelector('.problem-description').value;
+            
+            if (!problemDescription) {
+                alert('Veuillez décrire votre problème');
+                return;
+            }
+            
+            // Ici, vous enverriez la demande au serveur
+            console.log('Demande envoyée:', {
+                type: problemType,
+                material: materialId,
+                description: problemDescription
+            });
+            
+            alert('Votre demande a été envoyée avec succès. Un technicien vous contactera bientôt.');
+        });
+    </script>
+</body>
+</html>

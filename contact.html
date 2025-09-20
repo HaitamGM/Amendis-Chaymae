@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Amendis Tanger & Tétouan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #707070;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #333333;
+            --white: #FFFFFF;
+            --light-red: #d32f2f;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            background-color: var(--light-gray);
+        }
+        
+        .header {
+            padding: 30px;
+            background: var(--light-red);
+            color: var(--white);
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+        
+        .header p {
+            margin: 15px 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .contact-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .contact-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 10px;
+        }
+        
+        .contact-card h3 i {
+            margin-right: 12px;
+            font-size: 1.5rem;
+        }
+        
+        .contact-info {
+            margin: 15px 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 12px;
+            margin-top: 3px;
+            min-width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .city-section {
+            margin-bottom: 50px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid var(--medium-gray);
+        }
+        
+        .section-header {
+            padding: 18px 25px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-header i {
+            margin-right: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        
+        .map-container {
+            height: 500px;
+            border: 1px solid var(--medium-gray);
+            position: relative;
+        }
+        
+        .map-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .map-footer {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            padding: 15px 25px;
+            background-color: var(--light-gray);
+            border-top: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .map-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        
+        .map-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-footer {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-phone-alt"></i> Contactez Amendis</h1>
+        <p>Service client et agences commerciales à Tanger et Tétouan</p>
+    </div>
+    
+    <div class="container">
+        <!-- Contact Options Section -->
+        <div class="contact-options">
+            <div class="contact-card">
+                <h3><i class="fas fa-headset"></i> Service Client</h3>
+                <div class="contact-info">
+                    <i class="fas fa-phone"></i>
+                    <span><strong>Téléphone:</strong> +212 5 39 39 39 39</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Horaires:</strong> 8h - 20h (7j/7)</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-envelope"></i>
+                    <span><strong>Email:</strong> contact@amendis.ma</span>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> Urgences</h3>
+                <div class="contact-info">
+                    <i class="fas fa-phone"></i>
+                    <span><strong>Téléphone:</strong> +212 5 39 39 40 40</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Disponibilité:</strong> 24h/24, 7j/7</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Intervention sur toute la région</span>
+                </div>
+            </div>
+            
+            <div class="contact-card">
+                <h3><i class="fas fa-building"></i> Siège Social</h3>
+                <div class="contact-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span><strong>Adresse:</strong> Angle Boulevard Mohammed VI et Rue Al Andalous, Tanger</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Horaires:</strong> 8h30 - 17h30 (Lun-Ven)</span>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-globe"></i>
+                    <span><strong>Site web:</strong> www.amendis.ma</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tanger Section -->
+        <div class="city-section">
+            <div class="section-header">
+                <i class="fas fa-map-marker-alt"></i>
+                <h2>Agences commerciales Amendis Tanger</h2>
+            </div>
+            
+            <div class="map-container">
+                <iframe class="map-frame" 
+                        src="https://www.google.com/maps/d/embed?mid=1xSEjLEO9JRe-qjObg5AijKGAPhc&ehbc=2E312F" 
+                        allowfullscreen="" 
+                        loading="lazy"></iframe>
+            </div>
+            
+            <div class="map-footer">
+                <div>
+                    <strong>Google My Maps</strong>
+                    <a href="#">Donnée cartographique ©2023 Google</a>
+                    <a href="#">Conditions d'utilisation</a>
+                </div>
+                <div>Échelle: 20 km</div>
+            </div>
+        </div>
+        
+        <!-- Tetouan Section -->
+        <div class="city-section">
+            <div class="section-header">
+                <i class="fas fa-map-marker-alt"></i>
+                <h2>Agences commerciales Amendis Tétouan</h2>
+            </div>
+            
+            <div class="map-container">
+                <iframe class="map-frame" 
+                        src="https://www.google.com/maps/d/embed?mid=1Ena-P2xQJPrI9JiKX4u52BhXZvs&ehbc=2E312F" 
+                        allowfullscreen="" 
+                        loading="lazy"></iframe>
+            </div>
+            
+            <div class="map-footer">
+                <div>
+                    <strong>Google My Maps</strong>
+                    <a href="#">Donnée cartographique ©2023 Google</a>
+                    <a href="#">Conditions d'utilisation</a>
+                </div>
+                <div>Échelle: 20 km</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

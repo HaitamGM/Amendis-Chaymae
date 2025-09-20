@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amendis - Gestion des Employés</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-red: #E30613;
+            --light-red: #FFEBEE;
+            --black: #212121;
+            --dark-gray: #424242;
+            --light-gray: #F5F5F5;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--black);
+            line-height: 1.6;
+            background-color: var(--white);
+        }
+        
+        .header {
+            padding: 25px;
+            background-color: var(--white);
+            color: var(--primary-red);
+            text-align: center;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            font-size: 1rem;
+            color: var(--dark-gray);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .employee-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark-gray);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-red);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark-red);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--dark-gray);
+            color: var(--dark-gray);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .employee-table th {
+            background-color: var(--light-gray);
+            color: var(--black);
+            padding: 14px 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .employee-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .employee-table tr:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .status-active {
+            color: #2E7D32;
+            font-weight: 500;
+        }
+        
+        .status-inactive {
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+        
+        .status-admin {
+            color: var(--primary-red);
+            font-weight: 500;
+        }
+        
+        .action-icons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-icons i {
+            cursor: pointer;
+            color: var(--dark-gray);
+            transition: all 0.2s;
+            font-size: 1.1rem;
+        }
+        
+        .action-icons i:hover {
+            color: var(--primary-red);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+        
+        .page-item {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--dark-gray);
+        }
+        
+        .page-item:hover, .page-item.active {
+            background-color: var(--primary-red);
+            color: var(--white);
+            border-color: var(--primary-red);
+        }
+        
+        @media (max-width: 768px) {
+            .employee-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .employee-controls {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .action-buttons {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-users"></i> Gestion des Employés</h1>
+        <p>Tableau de bord des employés Amendis</p>
+    </div>
+    
+    <div class="container">
+        <div class="employee-controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher un employé...">
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Ajouter
+                </button>
+                <button class="btn btn-outline">
+                    <i class="fas fa-filter"></i> Filtres
+                </button>
+                <button class="btn btn-outline">
+                    <i class="fas fa-download"></i> Exporter
+                </button>
+            </div>
+        </div>
+        
+        <table class="employee-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Adresse</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>BEN MOUSSA</td>
+                    <td>HANAN</td>
+                    <td>hanah.benmoussa@email.fr</td>
+                    <td>612345678</td>
+                    <td>12 rue Victor Hugo, Rabat</td>
+                    <td class="status-active">Actif</td>
+                    <td>
+                        <div class="action-icons">
+                            <i class="fas fa-edit" title="Modifier"></i>
+                            <i class="fas fa-trash" title="Supprimer"></i>
+                            <i class="fas fa-eye" title="Voir détails"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>ZIANE</td>
+                    <td>KHAOULA</td>
+                    <td>khaoh.ziane@email.fr</td>
+                    <td>611122233</td>
+                    <td>45 bd Hassan II, Tétouan</td>
+                    <td class="status-active">Actif</td>
+                    <td>
+                        <div class="action-icons">
+                            <i class="fas fa-edit" title="Modifier"></i>
+                            <i class="fas fa-trash" title="Supprimer"></i>
+                            <i class="fas fa-eye" title="Voir détails"></i>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>LATIFI</td>
+                    <td>MOHAMED</td>
+                    <td>mohah.latifi@email.fr</td>
+                    <td>692134876</td>
+                    <td>75 Av Mohamed V, Khouribga</td>
+                    <td class="status-inactive">Inactif</td>
+                    <td>
+                        <div class="action-icons">
+                            <i class="fas fa-edit" title="Modifier"></i>
+                            <i class="fas fa-trash" title="Supprimer"></i>
+                            <i class="fas fa-eye" title="Voir détails"></i>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            <div class="page-item"><i class="fas fa-angle-left"></i></div>
+            <div class="page-item active">1</div>
+            <div class="page-item">2</div>
+            <div class="page-item">3</div>
+            <div class="page-item">4</div>
+            <div class="page-item"><i class="fas fa-angle-right"></i></div>
+        </div>
+    </div>
+</body>
+</html>
